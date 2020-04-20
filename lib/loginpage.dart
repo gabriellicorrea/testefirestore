@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,19 +28,31 @@ class _LoginPageState extends State<LoginPage> {
                     }),
                 SizedBox(height: 15.0),
                 TextField(
-                    decoration: InputDecoration(hintText: 'Password'),
-                    onChanged: (value) {
-                      setState(() {
-                        _password = value;
-                      });
-                    }),
+                  decoration: InputDecoration(hintText: 'Password'),
+                  onChanged: (value) {
+                    setState(() {
+                      _password = value;
+                    });
+                  },
+                  obscureText: true,
+                ),
                 SizedBox(height: 20.0),
                 RaisedButton(
                   child: Text('Login'),
                   color: Colors.blue,
                   textColor: Colors.white,
                   elevation: 7.0,
-                  onPressed: () {},
+                  onPressed: () {
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _email, password: _password)
+                        .then((AuthResult auth) {})
+                        .then((FirebaseUser user) {
+                      Navigator.of(context).pushReplacementNamed('/homepage');
+                    }).catchError((e) {
+                      print(e);
+                    });
+                  },
                 ),
                 SizedBox(height: 15.0),
                 Text('Não tem um conta?'),

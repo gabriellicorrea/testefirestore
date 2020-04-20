@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,7 +26,13 @@ class _HomePageState extends State<HomePage> {
                 borderSide: BorderSide(
                     color: Colors.blue, style: BorderStyle.solid, width: 3.0),
                 child: Text('Logout'),
-                onPressed: () {},
+                onPressed: () {
+                  FirebaseAuth.instance.signOut().then((value) {
+                    Navigator.of(context).pushReplacementNamed('/landingpage');
+                  }).catchError((e) {
+                    print(e);
+                  });
+                },
               ),
             ],
           ),

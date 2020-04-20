@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+//services
 import 'package:firebase_auth/firebase_auth.dart';
+import 'services/usermanagement.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -45,8 +47,9 @@ class _SignupPageState extends State<SignupPage> {
                     FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: _email, password: _password)
-                        .then((signedInUser) {})
-                        .catchError((e) {
+                        .then((signedInUser) {
+                      UserManagement().storeNewUser(signedInUser, context);
+                    }).catchError((e) {
                       print(e);
                     });
                   },
